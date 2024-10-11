@@ -66,13 +66,13 @@ public class AppEAC4 {
 
         if (playersNumber > 0) {
             /* INICIALITZACIO MATRIU DE PUNTUACIONS */
-            int[][] points = new int[playersNumber][RONDES];
-            for (int i = 0; i < points.length; i++) {
-                for (int j = 0; j < points[i].length; j++) {
-                    points[i][j] = -1;
+            int[][] pointsMatrix = new int[playersNumber][RONDES];
+            for (int i = 0; i < pointsMatrix.length; i++) {
+                for (int j = 0; j < pointsMatrix[i].length; j++) {
+                    pointsMatrix[i][j] = -1;
                 }
             }
-            return points;
+            return pointsMatrix;
         } else {
             return null;
         }
@@ -82,13 +82,13 @@ public class AppEAC4 {
 
         if (playersNumber > 0) {
             /* INICIALITZACIO MATRIU D'USUARIS */
-            String[][] players = new String[playersNumber][NOMBRE_DADES_PARTICIPANT];
-            for (int i = 0; i < players.length; i++) {
-                for (int j = 0; j < players[i].length; j++) {
-                    players[i][j] = "";
+            String[][] playersData = new String[playersNumber][NOMBRE_DADES_PARTICIPANT];
+            for (int i = 0; i < playersData.length; i++) {
+                for (int j = 0; j < playersData[i].length; j++) {
+                    playersData[i][j] = "";
                 }
             }
-            return players;
+            return playersData;
         } else {
             return null;
         }
