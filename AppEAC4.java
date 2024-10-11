@@ -15,6 +15,7 @@ public class AppEAC4 {
     public static final String GUIO_STRING = "------------------------------";
     public static final String TITOL_MENU_STRING = "GESTIO IOC BOWLING";
     public static final String TITOL_ERROR_STRING = "ERROR";
+    public static final int MAX_POINTS = 10;
 
     Scanner entrada = new Scanner(System.in);
 
@@ -153,12 +154,24 @@ public class AppEAC4 {
                 age < 0) {
             return;
         } else {
-
+            playersData[rowNumber][0] = name;
+            playersData[rowNumber][1] = lastName;
+            playersData[rowNumber][2] = String.valueOf(age);
         }
     }
 
     public void setRoundPoints(int[][] pointsMatrix, int rowIndex, int round, int points) {
-
+        if (pointsMatrix == null ||
+                rowIndex < 0 ||
+                rowIndex > pointsMatrix.length ||
+                round == 0 ||
+                round < 0 ||
+                round > MAX_POINTS) {
+            return;
+        } else {
+            pointsMatrix[rowIndex][0] = round;
+            pointsMatrix[rowIndex][1] = points;
+        }
     }
 
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
