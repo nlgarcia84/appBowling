@@ -22,6 +22,8 @@ public class AppEAC4 {
     public static final String INTRO_EDAT = "Introdueixi l'edat del jugador";
     public static final String INTRO_EDAT_ERROR = "El valor introduït no es un nombre sencer";
     public static final String MENU_OPTIONS = "1) Puntuar ronda\n2) Mostrar tauler\n0) Sortir";
+    public static final String MENU_ERROR = "No s'ha introduit un número correcte de jugadors";
+    public static final String MENU_INVALID_OPTION = "No s'ha introduït una opció vàlida";
 
     Scanner entrada = new Scanner(System.in);
 
@@ -48,12 +50,31 @@ public class AppEAC4 {
             int age = askForInteger(INTRO_EDAT, INTRO_EDAT_ERROR);
             insertPlayerNames(playersData, i, name, lastName, age);
         }
-        /* MOSTRA TOTA LA INFO DELS JUGADORS I DE LES PUNTUACIONS */
-        showRounds(playersData, pointsMatrix);
         /* MOSTREM MENU DÓPCIONS */
-        showMenu(MENU_OPTIONS);
-        /* showError("Error molt greu en l’aplicació"); */
+        if (playersNumber == 0 || playersNumber < 0) {
+            showError(MENU_ERROR);
+        } else {
+            showMenu(MENU_OPTIONS);
+        }
         System.out.println();
+        int opcioEscollida = entrada.nextInt();
+        switch (opcioEscollida) {
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+
+            default:
+                System.out.println(GUIO_STRING + "\n" + MENU_INVALID_OPTION + "\n" + GUIO_STRING);
+                break;
+        }
+        /* MOSTRA TOTA LA INFO DELS JUGADORS I DE LES PUNTUACIONS */
+        /* showRounds(playersData, pointsMatrix); */
         entrada.close();
     }
 
