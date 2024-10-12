@@ -11,16 +11,17 @@ import java.util.Scanner;
 public class AppEAC4 {
 
     public static final int RONDES = 10;
+    public static final int MAX_POINTS = 10;
     public static final int NOMBRE_DADES_PARTICIPANT = 3;
     public static final String GUIO_STRING = "------------------------------";
     public static final String TITOL_MENU_STRING = "GESTIO IOC BOWLING";
     public static final String TITOL_ERROR_STRING = "ERROR";
-    public static final int MAX_POINTS = 10;
+    public static final String INTRO_NUMERO_JUGADORS = "Quants jugadors hi haurà?";
     public static final String INTRO_NOM = "Introdueixi el nom del jugador";
     public static final String INTRO_COGNOM = "Introdueixi el cognom del jugador";
-    public static final String INTRO_NOM_ERROR = "No s'ha introduït cap informació";
+    public static final String STRING_ERROR = "No s'ha introduït cap informació";
     public static final String INTRO_EDAT = "Introdueixi l'edat del jugador";
-    public static final String INTRO_EDAT_ERROR = "El valor introduït no es un nombre sencer";
+    public static final String ENTER_ERROR = "El valor introduït no es un nombre sencer";
     public static final String MENU_OPTIONS = "1) Puntuar ronda\n2) Mostrar tauler\n0) Sortir";
     public static final String MENU_ERROR = "No s'ha introduit un número correcte de jugadors";
     public static final String MENU_INVALID_OPTION = "No s'ha introduït una opció vàlida";
@@ -34,20 +35,12 @@ public class AppEAC4 {
     }
 
     public void start() {
-        System.out.println("Quants jugadors hi haurà?");
-        /* SETEGEM A L'INICI DEL PROGRAMA TANT L'ARRAY DE JUGADORS COM LA DE PUNTS */
-        int playersNumber = entrada.nextInt();
-        int pointsMatrix[][] = initializePoints(playersNumber);
+        int playersNumber = askForInteger(INTRO_NUMERO_JUGADORS, GUIO_STRING);
         String playersData[][] = initializePlayers(playersNumber);
-        entrada.nextLine();
-        /*
-         * DEMANEM L'USUARI EL SEU NOM, COGNOMS, EDAT I INICIALITZEM ELS PARAMETRES AMB
-         * LES DADES RECOLLIDES
-         */
         for (int i = 0; i < playersNumber; i++) {
-            String name = askForString(INTRO_NOM, INTRO_NOM_ERROR);
-            String lastName = askForString(INTRO_COGNOM, INTRO_NOM_ERROR);
-            int age = askForInteger(INTRO_EDAT, INTRO_EDAT_ERROR);
+            String name = askForString(INTRO_NOM, STRING_ERROR);
+            String lastName = askForString(INTRO_COGNOM, STRING_ERROR);
+            int age = askForInteger(INTRO_EDAT, ENTER_ERROR);
             insertPlayerNames(playersData, i, name, lastName, age);
         }
         /* MOSTREM MENU DÓPCIONS */
@@ -64,8 +57,10 @@ public class AppEAC4 {
 
     public int[][] initializePoints(int playersNumber) {
 
-        if (playersNumber > 0) {
+        if (playersNumber < 0) {
             /* INICIALITZACIO MATRIU DE PUNTUACIONS */
+            return null;
+        } else {
             int[][] pointsMatrix = new int[playersNumber][RONDES];
             for (int i = 0; i < pointsMatrix.length; i++) {
                 for (int j = 0; j < pointsMatrix[i].length; j++) {
@@ -73,15 +68,15 @@ public class AppEAC4 {
                 }
             }
             return pointsMatrix;
-        } else {
-            return null;
         }
     }
 
     public String[][] initializePlayers(int playersNumber) {
 
-        if (playersNumber > 0) {
+        if (playersNumber < 0) {
             /* INICIALITZACIO MATRIU D'USUARIS */
+            return null;
+        } else {
             String[][] playersData = new String[playersNumber][NOMBRE_DADES_PARTICIPANT];
             for (int i = 0; i < playersData.length; i++) {
                 for (int j = 0; j < playersData[i].length; j++) {
@@ -89,8 +84,6 @@ public class AppEAC4 {
                 }
             }
             return playersData;
-        } else {
-            return null;
         }
     }
 
@@ -108,7 +101,7 @@ public class AppEAC4 {
                 case 2:
 
                     break;
-                case 3:
+                case 0:
 
                     break;
 
@@ -137,13 +130,13 @@ public class AppEAC4 {
     /* FUNCIO DEMANA UN STRING(nom y cognomms) A L'USUARI */
     public String askForString(String message, String errorMessage) {
         System.out.println(message);
-        String name = entrada.nextLine();
-        while (name.isEmpty()) {
+        String inputString = entrada.nextLine();
+        while (inputString.isEmpty()) {
             System.out.println(errorMessage);
             System.out.println(message);
-            name = entrada.nextLine();
+            inputString = entrada.nextLine();
         }
-        return name;
+        return inputString;
     }
 
     /* FUNCIO DEMANA UN ENTER A L'USUARI */
@@ -154,9 +147,9 @@ public class AppEAC4 {
             System.out.println(message);
             entrada.nextLine();
         }
-        int edatUsuari = entrada.nextInt();
+        int inputInteger = entrada.nextInt();
         entrada.nextLine();
-        return edatUsuari;
+        return inputInteger;
     }
 
     public void insertPlayerNames(String[][] playersData, int rowNumber, String name, String lastName, int age) {
@@ -177,14 +170,17 @@ public class AppEAC4 {
     public void setRoundPoints(int[][] pointsMatrix, int rowIndex, int round, int points) {
         if (pointsMatrix == null ||
                 rowIndex < 0 ||
-                rowIndex > pointsMatrix.length ||
+                rowIndex > RONDES ||
                 round == 0 ||
                 round < 0 ||
-                round > MAX_POINTS) {
+                points > MAX_POINTS) {
             return;
         } else {
-            pointsMatrix[rowIndex][0] = round;
-            pointsMatrix[rowIndex][1] = points;
+            for (int i = 0; i < pointsMatrix.length; i++) {
+                for (int j = 0; j < pointsMatrix[i].length; j++) {
+                    pointsMatrix[rowIndex][round] = points;
+                }
+            }
         }
     }
 
@@ -200,7 +196,6 @@ public class AppEAC4 {
             }
             System.out.println();
         }
-
     }
 
 }
