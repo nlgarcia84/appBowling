@@ -57,22 +57,6 @@ public class AppEAC4 {
             showMenu(MENU_OPTIONS);
         }
         System.out.println();
-        int opcioEscollida = entrada.nextInt();
-        switch (opcioEscollida) {
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-            case 3:
-
-                break;
-
-            default:
-                System.out.println(GUIO_STRING + "\n" + MENU_INVALID_OPTION + "\n" + GUIO_STRING);
-                break;
-        }
         /* MOSTRA TOTA LA INFO DELS JUGADORS I DE LES PUNTUACIONS */
         /* showRounds(playersData, pointsMatrix); */
         entrada.close();
@@ -116,6 +100,22 @@ public class AppEAC4 {
         if (menuText != null && menuText != "") {
             System.out.println(GUIO_STRING + "\n" + TITOL_MENU_STRING + "\n" + GUIO_STRING);
             System.out.println(menuText);
+            int opcioEscollida = entrada.nextInt();
+            switch (opcioEscollida) {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+
+                default:
+                    System.out.println(GUIO_STRING + "\n" + MENU_INVALID_OPTION + "\n" + GUIO_STRING);
+                    break;
+            }
         } else {
             return;
         }
