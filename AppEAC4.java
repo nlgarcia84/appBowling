@@ -16,10 +16,17 @@ public class AppEAC4 {
     public static final String TITOL_MENU_STRING = "GESTIO IOC BOWLING";
     public static final String TITOL_ERROR_STRING = "ERROR";
     public static final int MAX_POINTS = 10;
+    public static final String INTRO_NOM = "Introdueixi el nom del jugador";
+    public static final String INTRO_COGNOM = "Introdueixi el cognom del jugador";
+    public static final String INTRO_NOM_ERROR = "No s'ha introduït cap informació";
+    public static final String INTRO_EDAT = "Introdueixi l'edat del jugador";
+    public static final String INTRO_EDAT_ERROR = "El valor introduït no es un nombre sencer";
+    public static final String MENU_OPTIONS = "1) Puntuar ronda\n2) Mostrar tauler\n0) Sortir";
 
     Scanner entrada = new Scanner(System.in);
 
     public static void main(String[] args) {
+        /* INSTANCIEM LA CLASSE APPEAC4 */
         AppEAC4 bowlingApp = new AppEAC4();
         bowlingApp.start();
     }
@@ -31,17 +38,20 @@ public class AppEAC4 {
         int pointsMatrix[][] = initializePoints(playersNumber);
         String playersData[][] = initializePlayers(playersNumber);
         entrada.nextLine();
-        /* DEMANEM AL USUARI EL NOM, COGNOMS, EDAT */
+        /*
+         * DEMANEM L'USUARI EL SEU NOM, COGNOMS, EDAT I INICIALITZEM ELS PARAMETRES AMB
+         * LES DADES RECOLLIDES
+         */
         for (int i = 0; i < playersNumber; i++) {
-            String name = askForString("Introdueixi el seu nom", "No s'ha introduït cap informació");
-            String lastName = askForLastName("Introdueixi el seu cognom", "No s'ha introduït cap informació");
-            int age = askForInteger("Introdueixi la seva edat", "El valor introduït no es un nombre sencer");
+            String name = askForString(INTRO_NOM, INTRO_NOM_ERROR);
+            String lastName = askForString(INTRO_COGNOM, INTRO_NOM_ERROR);
+            int age = askForInteger(INTRO_EDAT, INTRO_EDAT_ERROR);
             insertPlayerNames(playersData, i, name, lastName, age);
         }
-
+        /* MOSTRA TOTA LA INFO DELS JUGADORS I DE LES PUNTUACIONS */
         showRounds(playersData, pointsMatrix);
         /* MOSTREM MENU DÓPCIONS */
-        showMenu("1) Puntuar ronda\n2) Mostrar tauler\n0) Sortir");
+        showMenu(MENU_OPTIONS);
         /* showError("Error molt greu en l’aplicació"); */
         System.out.println();
         entrada.close();
@@ -103,7 +113,7 @@ public class AppEAC4 {
 
     }
 
-    /* FUNCIO DEMANA UN STRING(nom) A L'USUARI */
+    /* FUNCIO DEMANA UN STRING(nom y cognomms) A L'USUARI */
     public String askForString(String message, String errorMessage) {
         System.out.println(message);
         String name = entrada.nextLine();
@@ -113,18 +123,6 @@ public class AppEAC4 {
             name = entrada.nextLine();
         }
         return name;
-    }
-
-    /* FUNCIO DEMANA UN STRING(cognom) A L'USUARI */
-    public String askForLastName(String message, String errorMessage) {
-        System.out.println(message);
-        String lastName = entrada.nextLine();
-        while (lastName.isEmpty()) {
-            System.out.println(errorMessage);
-            System.out.println(message);
-            lastName = entrada.nextLine();
-        }
-        return lastName;
     }
 
     /* FUNCIO DEMANA UN ENTER A L'USUARI */
