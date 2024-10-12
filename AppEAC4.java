@@ -26,39 +26,24 @@ public class AppEAC4 {
 
     public void start() {
         System.out.println("Quants jugadors hi haurà?");
+        /* SETEGEM A L'INICI DEL PROGRAMA TANT L'ARRAY DE JUGADORS COM LA DE PUNTS */
         int playersNumber = entrada.nextInt();
-        int points[][] = initializePoints(playersNumber);
-        for (int i = 0; i < points.length; i++) {
-            System.out.print("{{");
-            for (int j = 0; j < points[i].length; j++) {
-                if (j < points[i].length - 1) {
-                    System.out.print(points[i][j] + ",");
-                } else {
-                    System.out.print(points[i][j]);
-                }
-            }
-            System.out.print("}}");
-            System.out.println();
+        int pointsMatrix[][] = initializePoints(playersNumber);
+        String playersData[][] = initializePlayers(playersNumber);
+        entrada.nextLine();
+        /* DEMANEM AL USUARI EL NOM, COGNOMS, EDAT */
+        for (int i = 0; i < playersNumber; i++) {
+            String name = askForString("Introdueixi el seu nom", "No s'ha introduït cap informació");
+            String lastName = askForLastName("Introdueixi el seu cognom", "No s'ha introduït cap informació");
+            int age = askForInteger("Introdueixi la seva edat", "El valor introduït no es un nombre sencer");
+            insertPlayerNames(playersData, i, name, lastName, age);
         }
-        String players[][] = initializePlayers(playersNumber);
-        System.out.println("{");
-        for (int i = 0; i < players.length; i++) {
-            System.out.print("{");
-            for (int j = 0; j < players[i].length - 1; j++) {
-                System.out.print(players[i][j] + ",");
-            }
-            if (i < points.length - 1) {
-                System.out.println("},");
-            } else {
-                System.out.println("}");
-            }
-        }
-        System.out.println("}");
-        showMenu("1 - Primera opció\n2 - Segona opció\n3 - Tercera opció");
-        showError("Error molt greu en l’aplicació");
+
+        showRounds(playersData, pointsMatrix);
+        /* MOSTREM MENU DÓPCIONS */
+        showMenu("1) Puntuar ronda\n2) Mostrar tauler\n0) Sortir");
+        /* showError("Error molt greu en l’aplicació"); */
         System.out.println();
-        askForString("Introdueixi el seu nom", "No s'ha introduït cap informació");
-        askForInteger("Introdueixi la seva edat", "El valor introduït no es un nombre sencer");
         entrada.close();
     }
 
@@ -118,17 +103,28 @@ public class AppEAC4 {
 
     }
 
-    /* FUNCIO DEMANA UN STRING A L'USUARI */
+    /* FUNCIO DEMANA UN STRING(nom) A L'USUARI */
     public String askForString(String message, String errorMessage) {
         System.out.println(message);
-        String nomUsuari = entrada.nextLine();
-        while (nomUsuari.isEmpty()) {
+        String name = entrada.nextLine();
+        while (name.isEmpty()) {
             System.out.println(errorMessage);
             System.out.println(message);
-            nomUsuari = entrada.nextLine();
+            name = entrada.nextLine();
         }
-        System.out.println(nomUsuari);
-        return nomUsuari;
+        return name;
+    }
+
+    /* FUNCIO DEMANA UN STRING(cognom) A L'USUARI */
+    public String askForLastName(String message, String errorMessage) {
+        System.out.println(message);
+        String lastName = entrada.nextLine();
+        while (lastName.isEmpty()) {
+            System.out.println(errorMessage);
+            System.out.println(message);
+            lastName = entrada.nextLine();
+        }
+        return lastName;
     }
 
     /* FUNCIO DEMANA UN ENTER A L'USUARI */
@@ -141,7 +137,6 @@ public class AppEAC4 {
         }
         int edatUsuari = entrada.nextInt();
         entrada.nextLine();
-        System.out.println(edatUsuari);
         return edatUsuari;
     }
 
@@ -175,6 +170,17 @@ public class AppEAC4 {
     }
 
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
+        for (int i = 0; i < playersData.length; i++) {
+            for (int j = 0; j < playersData[i].length; j++) {
+                System.out.print(playersData[i][j] + " ");
+            }
+        }
+        for (int i = 0; i < pointsMatrix.length; i++) {
+            for (int j = 0; j < pointsMatrix[i].length; j++) {
+                System.out.print(pointsMatrix[i][j]);
+            }
+            System.out.println();
+        }
 
     }
 
