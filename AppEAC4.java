@@ -22,9 +22,14 @@ public class AppEAC4 {
     public static final String STRING_ERROR = "No s'ha introduït cap informació";
     public static final String INTRO_EDAT = "Introdueixi l'edat del jugador";
     public static final String ENTER_ERROR = "El valor introduït no es un nombre sencer";
-    public static final String MENU_OPTIONS = "1) Puntuar ronda\n2) Mostrar tauler\n0) Sortir";
+    public static final String MENU_INTRO_ENTER = "Introdueixi un valor enter per l'opció";
+    public static final String MENU_OPTIONS = "1) Puntuar ronda\n2) Mostrar tauler\n0) Sortir\n";
     public static final String MENU_ERROR = "No s'ha introduit un número correcte de jugadors";
     public static final String MENU_INVALID_OPTION = "No s'ha introduït una opció vàlida";
+    public static final String NUMERO_DE_RONDA = "Quina ronda vol puntuar?";
+    public static final String INTRODUEIXI_PUNTS_DE = "Introdueixi els punts per ";
+    public static final String RONDA_NO_EXISTEIX = "La ronda introduïda no existeix. Introdueixi un valor entre 1 i 10";
+    public static final String NUMERO_PUNTS_NO_EXISTEIX = "Els punts han de ser un valor entre 0 i 10";
 
     Scanner entrada = new Scanner(System.in);
 
@@ -34,12 +39,19 @@ public class AppEAC4 {
         bowlingApp.start();
     }
 
+    private int playersNumber;
+    private String[][] playersData;
+    private int[][] pointsMatrix;
+
     public void start() {
-        int playersNumber = askForInteger(INTRO_NUMERO_JUGADORS, GUIO_STRING);
+        playersNumber = askForInteger(INTRO_NUMERO_JUGADORS, ENTER_ERROR);
         String playersData[][] = initializePlayers(playersNumber);
         for (int i = 0; i < playersNumber; i++) {
+            System.out.print(String.valueOf(i + 1) + "/" + String.valueOf(playersNumber) + " ");
             String name = askForString(INTRO_NOM, STRING_ERROR);
+            System.out.print(String.valueOf(i + 1) + "/" + String.valueOf(playersNumber) + " ");
             String lastName = askForString(INTRO_COGNOM, STRING_ERROR);
+            System.out.print(String.valueOf(i + 1) + "/" + String.valueOf(playersNumber) + " ");
             int age = askForInteger(INTRO_EDAT, ENTER_ERROR);
             insertPlayerNames(playersData, i, name, lastName, age);
         }
@@ -90,27 +102,39 @@ public class AppEAC4 {
     /* FUNCIO MOSTRA MISSATGE INFORMACIO */
     public void showMenu(String menuText) {
 
-        if (menuText != null && menuText != "") {
+        if (menuText == null || menuText == "") {
+            return;
+        } else {
             System.out.println(GUIO_STRING + "\n" + TITOL_MENU_STRING + "\n" + GUIO_STRING);
             System.out.println(menuText);
+            System.out.println(MENU_INTRO_ENTER);
             int opcioEscollida = entrada.nextInt();
             switch (opcioEscollida) {
                 case 1:
+                    int round = askForInteger(NUMERO_DE_RONDA, ENTER_ERROR);
+                    while (round > RONDES || round < 0) {
+                        System.out.println(GUIO_STRING + "\n" + TITOL_ERROR_STRING + "\n" + GUIO_STRING);
+                        System.out.println(RONDA_NO_EXISTEIX);
+                        round = askForInteger(NUMERO_DE_RONDA, ENTER_ERROR);
+                    }
+                    int points = askForInteger(INTRODUEIXI_PUNTS_DE, ENTER_ERROR);
+                    while (points > MAX_POINTS || points < 0) {
+                        System.out.println(GUIO_STRING + "\n" + TITOL_ERROR_STRING + "\n" + GUIO_STRING);
+                        System.out.println(NUMERO_PUNTS_NO_EXISTEIX);
+                        points = askForInteger(INTRODUEIXI_PUNTS_DE, ENTER_ERROR);
+                    }
 
                     break;
-                case 2:
 
+                case 2:
+                    showRounds(playersData, pointsMatrix);
                     break;
                 case 0:
-
                     break;
-
                 default:
-                    System.out.println(GUIO_STRING + "\n" + MENU_INVALID_OPTION + "\n" + GUIO_STRING);
+                    showError(MENU_INVALID_OPTION);
                     break;
             }
-        } else {
-            return;
         }
 
     }
@@ -131,12 +155,25 @@ public class AppEAC4 {
     public String askForString(String message, String errorMessage) {
         System.out.println(message);
         String inputString = entrada.nextLine();
-        while (inputString.isEmpty()) {
-            System.out.println(errorMessage);
-            System.out.println(message);
+        while (true) {
+            if (inputString.isEmpty() || isInteger(inputString)) {
+                System.out.println(errorMessage);
+                System.out.println(message);
+            } else {
+                break;
+            }
             inputString = entrada.nextLine();
         }
         return inputString;
+    }
+
+    private boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true; // Si se puede convertir a entero, retorna true
+        } catch (NumberFormatException e) {
+            return false; // Si lanza una excepción, no es un entero
+        }
     }
 
     /* FUNCIO DEMANA UN ENTER A L'USUARI */
