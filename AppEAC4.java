@@ -123,8 +123,9 @@ public class AppEAC4 {
                         System.out.println(NUMERO_PUNTS_NO_EXISTEIX);
                         points = askForInteger(INTRODUEIXI_PUNTS_DE, ENTER_ERROR);
                     }
-
-                    break;
+                    for (int i = 0; i < playersNumber; i++) {
+                        setRoundPoints(pointsMatrix, i, round, points);
+                    }
 
                 case 2:
                     showRounds(playersData, pointsMatrix);
