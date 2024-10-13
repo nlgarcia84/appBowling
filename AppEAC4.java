@@ -60,10 +60,9 @@ public class AppEAC4 {
         } else {
             showMenu(MENU_OPTIONS);
         }
+        scoreRound(pointsMatrix, playersData, playersNumber);
 
         System.out.println();
-
-        scoreRound(pointsMatrix, playersData, playersNumber);
 
         entrada.close();
     }
@@ -116,24 +115,31 @@ public class AppEAC4 {
 
         int opcioEscollida = entrada.nextInt();
 
-        switch (opcioEscollida) {
-            case 1:
-                int round = askForInteger(INTRODUEIX_NUMERO_DE_RONDA, ENTER_ERROR);
-                for (int i = 0; i < playersNumber; i++) {
-                    String puntsMsg = "Introdueix punts per " + playersData[i][0] + " " + playersData[i][1];
-                    int points = askForInteger(puntsMsg, ENTER_ERROR);
-                    setRoundPoints(pointsMatrix, i, round, points);
-                }
-                break;
-            case 2:
-                showRounds(playersData, pointsMatrix);
-                break;
-            case 0:
-                break;
-            default:
-                showError(MENU_INVALID_OPTION);
-                break;
+        while (opcioEscollida == 1 || opcioEscollida == 2) {
+            switch (opcioEscollida) {
+                case 1:
+                    int round = askForInteger(INTRODUEIX_NUMERO_DE_RONDA, ENTER_ERROR);
+                    for (int i = 0; i < playersNumber; i++) {
+                        String puntsMsg = "Introdueix punts per " + playersData[i][0] + " " + playersData[i][1];
+                        int points = askForInteger(puntsMsg, ENTER_ERROR);
+                        setRoundPoints(pointsMatrix, i, round, points);
+                        showMenu(MENU_OPTIONS);
+                        opcioEscollida = entrada.nextInt();
+                    }
+                    break;
+                case 2:
+                    showRounds(playersData, pointsMatrix);
+                    showMenu(MENU_OPTIONS);
+                    opcioEscollida = entrada.nextInt();
+                    break;
+                case 0:
+                    break;
+                default:
+                    showMenu(MENU_OPTIONS);
+                    break;
+            }
         }
+
     }
 
     /* FUNCIO MOSTRA MISSATGE ERROR */
