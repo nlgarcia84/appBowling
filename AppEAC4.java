@@ -64,7 +64,6 @@ public class AppEAC4 {
         System.out.println();
 
         scoreRound(pointsMatrix, playersData, playersNumber);
-        /* MOSTRA TOTA LA INFO DELS JUGADORS I DE LES PUNTUACIONS */
 
         entrada.close();
     }
@@ -114,14 +113,16 @@ public class AppEAC4 {
     }
 
     public void scoreRound(int pointsMatrix[][], String playersData[][], int playersNumber) {
+
         int opcioEscollida = entrada.nextInt();
+
         switch (opcioEscollida) {
             case 1:
-                int rondaEscollida = askForInteger(INTRODUEIX_NUMERO_DE_RONDA, ENTER_ERROR);
+                int round = askForInteger(INTRODUEIX_NUMERO_DE_RONDA, ENTER_ERROR);
                 for (int i = 0; i < playersNumber; i++) {
                     String puntsMsg = "Introdueix punts per " + playersData[i][0] + " " + playersData[i][1];
-                    int puntsAssignats = askForInteger(puntsMsg, ENTER_ERROR);
-                    setRoundPoints(pointsMatrix, rondaEscollida, playersNumber, puntsAssignats);
+                    int points = askForInteger(puntsMsg, ENTER_ERROR);
+                    setRoundPoints(pointsMatrix, i, round, points);
                 }
                 break;
             case 2:
@@ -133,10 +134,6 @@ public class AppEAC4 {
                 showError(MENU_INVALID_OPTION);
                 break;
         }
-    }
-
-    public void showTable(String playersData[][], int pointsMatrix[][]) {
-        showRounds(playersData, pointsMatrix);
     }
 
     /* FUNCIO MOSTRA MISSATGE ERROR */
@@ -230,7 +227,12 @@ public class AppEAC4 {
         }
         for (int i = 0; i < pointsMatrix.length; i++) {
             for (int j = 0; j < pointsMatrix[i].length; j++) {
-                System.out.print(pointsMatrix[i][j] + " ");
+                if (pointsMatrix[i][j] == -1) {
+                    System.out.print('-' + " ");
+                } else {
+                    System.out.print(pointsMatrix[i][j] + " ");
+                }
+
             }
         }
 
