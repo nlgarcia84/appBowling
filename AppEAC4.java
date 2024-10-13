@@ -26,8 +26,7 @@ public class AppEAC4 {
     public static final String MENU_OPTIONS = "1) Puntuar ronda\n2) Mostrar tauler\n0) Sortir\n";
     public static final String MENU_ERROR = "No s'ha introduit un número correcte de jugadors";
     public static final String MENU_INVALID_OPTION = "No s'ha introduït una opció vàlida";
-    public static final String NUMERO_DE_RONDA = "Quina ronda vol puntuar?";
-    public static final String INTRODUEIXI_PUNTS_DE = "Introdueixi els punts per ";
+    public static final String INTRODUEIX_NUMERO_DE_RONDA = "Quina ronda vol puntuar?";
     public static final String RONDA_NO_EXISTEIX = "La ronda introduïda no existeix. Introdueixi un valor entre 1 i 10";
     public static final String NUMERO_PUNTS_NO_EXISTEIX = "Els punts han de ser un valor entre 0 i 10";
 
@@ -39,13 +38,12 @@ public class AppEAC4 {
         bowlingApp.start();
     }
 
-    private int playersNumber;
-    private String[][] playersData;
-    private int[][] pointsMatrix;
-
     public void start() {
-        playersNumber = askForInteger(INTRO_NUMERO_JUGADORS, ENTER_ERROR);
+        int playersNumber = askForInteger(INTRO_NUMERO_JUGADORS, ENTER_ERROR);
+        // DECLAREM E INICIALITZEM LA MATRIU DE JUGADORS
+        int pointsMatrix[][] = initializePoints(playersNumber);
         String playersData[][] = initializePlayers(playersNumber);
+        // LA OMPLIM AMB ELS MÉTODES
         for (int i = 0; i < playersNumber; i++) {
             System.out.print(String.valueOf(i + 1) + "/" + String.valueOf(playersNumber) + " ");
             String name = askForString(INTRO_NOM, STRING_ERROR);
@@ -55,15 +53,19 @@ public class AppEAC4 {
             int age = askForInteger(INTRO_EDAT, ENTER_ERROR);
             insertPlayerNames(playersData, i, name, lastName, age);
         }
+
         /* MOSTREM MENU DÓPCIONS */
         if (playersNumber == 0 || playersNumber < 0) {
             showError(MENU_ERROR);
         } else {
             showMenu(MENU_OPTIONS);
         }
+
         System.out.println();
+
+        scoreRound(pointsMatrix, playersData, playersNumber);
         /* MOSTRA TOTA LA INFO DELS JUGADORS I DE LES PUNTUACIONS */
-        /* showRounds(playersData, pointsMatrix); */
+
         entrada.close();
     }
 
@@ -108,36 +110,33 @@ public class AppEAC4 {
             System.out.println(GUIO_STRING + "\n" + TITOL_MENU_STRING + "\n" + GUIO_STRING);
             System.out.println(menuText);
             System.out.println(MENU_INTRO_ENTER);
-            int opcioEscollida = entrada.nextInt();
-            switch (opcioEscollida) {
-                case 1:
-                    int round = askForInteger(NUMERO_DE_RONDA, ENTER_ERROR);
-                    while (round > RONDES || round < 0) {
-                        System.out.println(GUIO_STRING + "\n" + TITOL_ERROR_STRING + "\n" + GUIO_STRING);
-                        System.out.println(RONDA_NO_EXISTEIX);
-                        round = askForInteger(NUMERO_DE_RONDA, ENTER_ERROR);
-                    }
-                    int points = askForInteger(INTRODUEIXI_PUNTS_DE, ENTER_ERROR);
-                    while (points > MAX_POINTS || points < 0) {
-                        System.out.println(GUIO_STRING + "\n" + TITOL_ERROR_STRING + "\n" + GUIO_STRING);
-                        System.out.println(NUMERO_PUNTS_NO_EXISTEIX);
-                        points = askForInteger(INTRODUEIXI_PUNTS_DE, ENTER_ERROR);
-                    }
-                    for (int i = 0; i < playersNumber; i++) {
-                        setRoundPoints(pointsMatrix, i, round, points);
-                    }
-
-                case 2:
-                    showRounds(playersData, pointsMatrix);
-                    break;
-                case 0:
-                    break;
-                default:
-                    showError(MENU_INVALID_OPTION);
-                    break;
-            }
         }
+    }
 
+    public void scoreRound(int pointsMatrix[][], String playersData[][], int playersNumber) {
+        int opcioEscollida = entrada.nextInt();
+        switch (opcioEscollida) {
+            case 1:
+                int rondaEscollida = askForInteger(INTRODUEIX_NUMERO_DE_RONDA, ENTER_ERROR);
+                for (int i = 0; i < playersNumber; i++) {
+                    String puntsMsg = "Introdueix punts per " + playersData[i][0] + " " + playersData[i][1];
+                    int puntsAssignats = askForInteger(puntsMsg, ENTER_ERROR);
+                    setRoundPoints(pointsMatrix, rondaEscollida, playersNumber, puntsAssignats);
+                }
+                break;
+            case 2:
+                showRounds(playersData, pointsMatrix);
+                break;
+            case 0:
+                break;
+            default:
+                showError(MENU_INVALID_OPTION);
+                break;
+        }
+    }
+
+    public void showTable(String playersData[][], int pointsMatrix[][]) {
+        showRounds(playersData, pointsMatrix);
     }
 
     /* FUNCIO MOSTRA MISSATGE ERROR */
@@ -223,6 +222,7 @@ public class AppEAC4 {
     }
 
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
+
         for (int i = 0; i < playersData.length; i++) {
             for (int j = 0; j < playersData[i].length; j++) {
                 System.out.print(playersData[i][j] + " ");
@@ -230,10 +230,10 @@ public class AppEAC4 {
         }
         for (int i = 0; i < pointsMatrix.length; i++) {
             for (int j = 0; j < pointsMatrix[i].length; j++) {
-                System.out.print(pointsMatrix[i][j]);
+                System.out.print(pointsMatrix[i][j] + " ");
             }
-            System.out.println();
         }
+
     }
 
 }
