@@ -129,6 +129,7 @@ public class AppEAC4 {
                     break;
                 case 2:
                     showRounds(playersData, pointsMatrix);
+                    System.out.println();
                     showMenu(MENU_OPTIONS);
                     opcioEscollida = entrada.nextInt();
                     break;
@@ -139,7 +140,6 @@ public class AppEAC4 {
                     break;
             }
         }
-
     }
 
     /* FUNCIO MOSTRA MISSATGE ERROR */
