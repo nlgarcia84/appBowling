@@ -13,7 +13,7 @@ public class AppEAC4 {
     public static final int RONDES = 10;
     public static final int MAX_POINTS = 10;
     public static final int NOMBRE_DADES_PARTICIPANT = 3;
-    public static final String GUIO_STRING = "------------------------------";
+    public static final String GUIO_STRING = "------------------------------------------------";
     public static final String TITOL_MENU_STRING = "GESTIO IOC BOWLING";
     public static final String TITOL_ERROR_STRING = "ERROR";
     public static final String INTRO_NUMERO_JUGADORS = "Quants jugadors hi haurà?";
@@ -57,6 +57,7 @@ public class AppEAC4 {
         /* MOSTREM MENU DÓPCIONS */
         if (playersNumber == 0 || playersNumber < 0) {
             showError(MENU_ERROR);
+            return;
         } else {
             showMenu(MENU_OPTIONS);
         }
@@ -69,7 +70,7 @@ public class AppEAC4 {
 
     public int[][] initializePoints(int playersNumber) {
 
-        if (playersNumber < 0) {
+        if (playersNumber <= 0) {
             /* INICIALITZACIO MATRIU DE PUNTUACIONS */
             return null;
         } else {
@@ -85,7 +86,7 @@ public class AppEAC4 {
 
     public String[][] initializePlayers(int playersNumber) {
 
-        if (playersNumber < 0) {
+        if (playersNumber <= 0) {
             /* INICIALITZACIO MATRIU D'USUARIS */
             return null;
         } else {
@@ -115,10 +116,13 @@ public class AppEAC4 {
 
         int opcioEscollida = entrada.nextInt();
 
-        while (opcioEscollida == 1 || opcioEscollida == 2) {
+        while (opcioEscollida != 0) {
             switch (opcioEscollida) {
                 case 1:
                     int round = askForInteger(INTRODUEIX_NUMERO_DE_RONDA, ENTER_ERROR);
+                    if (round == 0) {
+                        return;
+                    }
                     for (int i = 0; i < playersNumber; i++) {
                         String puntsMsg = "Introdueix punts per " + playersData[i][0] + " " + playersData[i][1];
                         int points = askForInteger(puntsMsg, ENTER_ERROR);
@@ -137,6 +141,7 @@ public class AppEAC4 {
                     break;
                 default:
                     showMenu(MENU_OPTIONS);
+                    opcioEscollida = entrada.nextInt();
                     break;
             }
         }
@@ -159,25 +164,14 @@ public class AppEAC4 {
     public String askForString(String message, String errorMessage) {
         System.out.println(message);
         String inputString = entrada.nextLine();
-        while (true) {
-            if (inputString.isEmpty() || isInteger(inputString)) {
-                System.out.println(errorMessage);
-                System.out.println(message);
-            } else {
-                break;
-            }
+        while (inputString.isEmpty()) {
+
+            System.out.println(errorMessage);
+            System.out.println(message);
             inputString = entrada.nextLine();
         }
-        return inputString;
-    }
 
-    private boolean isInteger(String str) {
-        try {
-            Integer.parseInt(str);
-            return true; // Si se puede convertir a entero, retorna true
-        } catch (NumberFormatException e) {
-            return false; // Si lanza una excepción, no es un entero
-        }
+        return inputString;
     }
 
     /* FUNCIO DEMANA UN ENTER A L'USUARI */
@@ -198,7 +192,9 @@ public class AppEAC4 {
                 rowNumber < 0 ||
                 rowNumber > playersData.length ||
                 name == null ||
+                name == "" ||
                 lastName == null ||
+                lastName == "" ||
                 age < 0) {
             return;
         } else {
@@ -211,38 +207,42 @@ public class AppEAC4 {
     public void setRoundPoints(int[][] pointsMatrix, int rowIndex, int round, int points) {
         if (pointsMatrix == null ||
                 rowIndex < 0 ||
-                rowIndex > RONDES ||
+                rowIndex > pointsMatrix.length ||
                 round == 0 ||
                 round < 0 ||
-                points > MAX_POINTS) {
+                round > RONDES ||
+                points > MAX_POINTS ||
+                points < 0) {
             return;
-        } else {
-            for (int i = 0; i < pointsMatrix.length; i++) {
-                for (int j = 0; j < pointsMatrix[i].length; j++) {
-                    pointsMatrix[rowIndex][round] = points;
-                }
-            }
         }
+
+        pointsMatrix[rowIndex][round - 1] = points;
+
     }
 
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
+
+        System.out.println(GUIO_STRING);
+        System.out.print("FULL NAME" + " " + "AGE");
+        for (int i = 1; i < RONDES; i++) {
+            System.out.print("R" + i + " ");
+        }
+        System.out.println();
+        System.out.println(GUIO_STRING);
 
         for (int i = 0; i < playersData.length; i++) {
             for (int j = 0; j < playersData[i].length; j++) {
                 System.out.print(playersData[i][j] + " ");
             }
-        }
-        for (int i = 0; i < pointsMatrix.length; i++) {
-            for (int j = 0; j < pointsMatrix[i].length; j++) {
-                if (pointsMatrix[i][j] == -1) {
+            for (int k = 0; k < pointsMatrix[0].length; k++) {
+                if (pointsMatrix[0][k] == -1) {
                     System.out.print('-' + " ");
                 } else {
-                    System.out.print(pointsMatrix[i][j] + " ");
+                    System.out.print(pointsMatrix[0][k] + " ");
                 }
-
             }
+            System.out.println();
         }
 
     }
-
 }
