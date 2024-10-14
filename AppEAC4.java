@@ -123,9 +123,9 @@ public class AppEAC4 {
                         String puntsMsg = "Introdueix punts per " + playersData[i][0] + " " + playersData[i][1];
                         int points = askForInteger(puntsMsg, ENTER_ERROR);
                         setRoundPoints(pointsMatrix, i, round, points);
-                        showMenu(MENU_OPTIONS);
-                        opcioEscollida = entrada.nextInt();
                     }
+                    showMenu(MENU_OPTIONS);
+                    opcioEscollida = entrada.nextInt();
                     break;
                 case 2:
                     showRounds(playersData, pointsMatrix);
@@ -140,6 +140,7 @@ public class AppEAC4 {
                     break;
             }
         }
+
     }
 
     /* FUNCIO MOSTRA MISSATGE ERROR */
