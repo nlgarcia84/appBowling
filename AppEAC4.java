@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 public class AppEAC4 {
 
+    // DECLAREM LES CONSTANTS
     public static final int RONDES = 10;
     public static final int MAX_POINTS = 10;
     public static final int NOMBRE_DADES_PARTICIPANT = 3;
@@ -36,12 +37,14 @@ public class AppEAC4 {
 
     Scanner entrada = new Scanner(System.in);
 
+    // MÉTODE PRINCIPAL
     public static void main(String[] args) {
         /* INSTANCIEM LA CLASSE APPEAC4 */
         AppEAC4 bowlingApp = new AppEAC4();
         bowlingApp.start();
     }
 
+    // AQUEST MÉTODE TRUCARÁ A LA RESTA DE MÉTODES
     public void start() {
         int playersNumber = askForInteger(INTRO_NUMERO_JUGADORS, ENTER_ERROR);
         // DECLAREM E INICIALITZEM LA MATRIU DE JUGADORS
@@ -58,10 +61,11 @@ public class AppEAC4 {
             insertPlayerNames(playersData, i, name, lastName, age);
         }
 
-        /* MOSTREM MENU DÓPCIONS */
+        /* SI S'ENTREN 0 JUGADORS EL PROGRAMA ACABA */
         if (playersNumber == 0 || playersNumber < 0) {
             showError(MENU_ERROR);
             return;
+            // SINÓ CONTINUA I MOSTRA LES OPCIONS DEL MENÚ
         } else {
             showMenu(MENU_OPTIONS);
         }
@@ -116,6 +120,7 @@ public class AppEAC4 {
         }
     }
 
+    // AQUEST MÉTODE GESTIONA EL MENÚ EN FUNCIÓ DE LA OPCIÓ ESCOLLIDA
     public void scoreRound(int pointsMatrix[][], String playersData[][], int playersNumber) {
 
         int opcioEscollida = entrada.nextInt();
@@ -164,11 +169,13 @@ public class AppEAC4 {
 
     }
 
-    /* FUNCIO DEMANA UN STRING(nom y cognomms) A L'USUARI */
+    /*
+     * FUNCIO DEMANA UN STRING(l'utilitzrem per atrapar nom y cognomms) A L'USUARI
+     */
     public String askForString(String message, String errorMessage) {
         System.out.println(message);
         String inputString = entrada.nextLine();
-        while (inputString.isEmpty() || inputString == "\n" + message) {
+        while (inputString.trim().isEmpty()) {
             System.out.println(errorMessage);
             System.out.println(message);
             inputString = entrada.nextLine();
@@ -177,7 +184,10 @@ public class AppEAC4 {
         return inputString;
     }
 
-    /* FUNCIO DEMANA UN ENTER A L'USUARI */
+    /*
+     * FUNCIO DEMANA UN ENTER A L'USUARI (l'utilitzarem per atrapar la edat i les
+     * puntuacions a cada ronda
+     */
     public int askForInteger(String message, String errorMessage) {
         System.out.println(message);
         while (!entrada.hasNextInt()) {
@@ -190,6 +200,7 @@ public class AppEAC4 {
         return inputInteger;
     }
 
+    /* MÉTODE PER SETEJAR LA MATRIU DE JUGADORS */
     public void insertPlayerNames(String[][] playersData, int rowNumber, String name, String lastName, int age) {
         if (playersData == null ||
                 rowNumber < 0 ||
@@ -207,6 +218,7 @@ public class AppEAC4 {
         }
     }
 
+    /* MÉTODE PER SETEJAR LA MATRIU DE PUNTS */
     public void setRoundPoints(int[][] pointsMatrix, int rowIndex, int round, int points) {
         if (pointsMatrix == null ||
                 rowIndex < 0 ||
@@ -223,9 +235,11 @@ public class AppEAC4 {
 
     }
 
+    /* MÉTODE PER PARSEJAR LES DUES MATRIUS DE FORMA TABULADA */
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
 
-        if (playersData == null || pointsMatrix == null || pointsMatrix.length < 0 || pointsMatrix.length > RONDES
+        if (playersData == null || pointsMatrix == null || pointsMatrix.length < 0
+                || pointsMatrix.length > RONDES
                 || playersData.length < 0) {
             return;
         }
@@ -243,10 +257,14 @@ public class AppEAC4 {
         for (int i = 0; i < playersData.length; i++) {
             for (int j = 0; j < playersData[i].length - 1; j++) {
                 System.out.printf(GREEN_COLOR + "%-10s", playersData[i][j] + " " + RESET_COLOR);
+                if (playersData[i][j] == "") {
+                    return;
+                }
             }
             System.out.printf(GREEN_COLOR + "\t" + "%18s", playersData[i][2] + RESET_COLOR);
             System.out.printf("%5s", "");
             for (int k = 0; k < pointsMatrix[0].length; k++) {
+
                 if (pointsMatrix[0][k] == -1) {
                     System.out.printf("%4s", '-');
                 } else {
