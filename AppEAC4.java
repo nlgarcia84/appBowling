@@ -13,7 +13,9 @@ public class AppEAC4 {
     public static final int RONDES = 10;
     public static final int MAX_POINTS = 10;
     public static final int NOMBRE_DADES_PARTICIPANT = 3;
-    public static final String GUIO_STRING = "------------------------------------------------";
+    public static final String FULL_NAME = "FULL NAME";
+    public static final String AGE = "AGE";
+    public static final String GUIO_STRING = "---------------------------------------------------------------------------";
     public static final String TITOL_MENU_STRING = "GESTIO IOC BOWLING";
     public static final String TITOL_ERROR_STRING = "ERROR";
     public static final String INTRO_NUMERO_JUGADORS = "Quants jugadors hi haurà?";
@@ -29,6 +31,8 @@ public class AppEAC4 {
     public static final String INTRODUEIX_NUMERO_DE_RONDA = "Quina ronda vol puntuar?";
     public static final String RONDA_NO_EXISTEIX = "La ronda introduïda no existeix. Introdueixi un valor entre 1 i 10";
     public static final String NUMERO_PUNTS_NO_EXISTEIX = "Els punts han de ser un valor entre 0 i 10";
+    public static final String GREEN_COLOR = "\033[32m";
+    public static final String RESET_COLOR = "\u001B[0m";
 
     Scanner entrada = new Scanner(System.in);
 
@@ -164,8 +168,7 @@ public class AppEAC4 {
     public String askForString(String message, String errorMessage) {
         System.out.println(message);
         String inputString = entrada.nextLine();
-        while (inputString.isEmpty()) {
-
+        while (inputString.isEmpty() || inputString == "\n" + message) {
             System.out.println(errorMessage);
             System.out.println(message);
             inputString = entrada.nextLine();
@@ -222,23 +225,32 @@ public class AppEAC4 {
 
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
 
+        if (playersData == null || pointsMatrix == null || pointsMatrix.length < 0 || pointsMatrix.length > RONDES
+                || playersData.length < 0) {
+            return;
+        }
+
         System.out.println(GUIO_STRING);
-        System.out.print("FULL NAME" + " " + "AGE");
-        for (int i = 1; i < RONDES; i++) {
-            System.out.print("R" + i + " ");
+        System.out.printf("%-20s", FULL_NAME);
+        System.out.printf("%10s", AGE);
+        System.out.printf("%5s", "");
+        for (int i = 1; i <= RONDES; i++) {
+            System.out.print("R" + i + "  ");
         }
         System.out.println();
         System.out.println(GUIO_STRING);
 
         for (int i = 0; i < playersData.length; i++) {
-            for (int j = 0; j < playersData[i].length; j++) {
-                System.out.print(playersData[i][j] + " ");
+            for (int j = 0; j < playersData[i].length - 1; j++) {
+                System.out.printf(GREEN_COLOR + "%-10s", playersData[i][j] + " " + RESET_COLOR);
             }
+            System.out.printf(GREEN_COLOR + "\t" + "%18s", playersData[i][2] + RESET_COLOR);
+            System.out.printf("%2s", "");
             for (int k = 0; k < pointsMatrix[0].length; k++) {
                 if (pointsMatrix[0][k] == -1) {
-                    System.out.print('-' + " ");
+                    System.out.printf("%4s", '-');
                 } else {
-                    System.out.print(pointsMatrix[0][k] + " ");
+                    System.out.printf("4d", pointsMatrix[0][k]);
                 }
             }
             System.out.println();
