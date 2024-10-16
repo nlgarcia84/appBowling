@@ -222,7 +222,7 @@ public class AppEAC4 {
     public void setRoundPoints(int[][] pointsMatrix, int rowIndex, int round, int points) {
         if (pointsMatrix == null ||
                 rowIndex < 0 ||
-                rowIndex > pointsMatrix.length ||
+                rowIndex > pointsMatrix.length - 1 ||
                 round == 0 ||
                 round < 0 ||
                 round > RONDES ||
@@ -239,7 +239,7 @@ public class AppEAC4 {
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
 
         if (playersData == null || pointsMatrix == null || pointsMatrix.length == 0
-                || pointsMatrix.length > RONDES
+                || pointsMatrix.length != playersData.length
                 || playersData.length == 0) {
             return;
         }
