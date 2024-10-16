@@ -238,9 +238,9 @@ public class AppEAC4 {
     /* MÉTODE PER PARSEJAR LES DUES MATRIUS DE FORMA TABULADA */
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
 
-        if (playersData == null || pointsMatrix == null || pointsMatrix.length < 0
+        if (playersData == null || pointsMatrix == null || pointsMatrix.length == 0
                 || pointsMatrix.length > RONDES
-                || playersData.length < 0) {
+                || playersData.length == 0) {
             return;
         }
 
