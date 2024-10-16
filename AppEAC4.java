@@ -233,9 +233,9 @@ public class AppEAC4 {
         System.out.println(GUIO_STRING);
         System.out.printf("%-20s", FULL_NAME);
         System.out.printf("%10s", AGE);
-        System.out.printf("%5s", "");
+        System.out.printf("%6s", "");
         for (int i = 1; i <= RONDES; i++) {
-            System.out.print("R" + i + "  ");
+            System.out.printf("%4s", "R" + i + " ");
         }
         System.out.println();
         System.out.println(GUIO_STRING);
@@ -245,12 +245,12 @@ public class AppEAC4 {
                 System.out.printf(GREEN_COLOR + "%-10s", playersData[i][j] + " " + RESET_COLOR);
             }
             System.out.printf(GREEN_COLOR + "\t" + "%18s", playersData[i][2] + RESET_COLOR);
-            System.out.printf("%2s", "");
+            System.out.printf("%5s", "");
             for (int k = 0; k < pointsMatrix[0].length; k++) {
                 if (pointsMatrix[0][k] == -1) {
                     System.out.printf("%4s", '-');
                 } else {
-                    System.out.printf("4d", pointsMatrix[0][k]);
+                    System.out.printf("%4d", pointsMatrix[0][k]);
                 }
             }
             System.out.println();
