@@ -238,9 +238,9 @@ public class AppEAC4 {
     /* MÉTODE PER PARSEJAR LES DUES MATRIUS DE FORMA TABULADA */
     public void showRounds(String[][] playersData, int[][] pointsMatrix) {
 
-        if (playersData == null || pointsMatrix == null || pointsMatrix.length == 0
-                || pointsMatrix.length != RONDES
-                || playersData.length == 0) {
+        if (playersData == null || pointsMatrix == null || pointsMatrix.length < 0
+                || pointsMatrix.length > RONDES
+                || playersData.length < 0) {
             return;
         }
 
@@ -268,7 +268,7 @@ public class AppEAC4 {
                 if (pointsMatrix[0][k] == -1) {
                     System.out.printf("%4s", '-');
                 } else {
-                    System.out.printf("%4d", pointsMatrix[0][k]);
+                    System.out.printf("%4d", pointsMatrix[i][k]);
                 }
             }
             System.out.println();
